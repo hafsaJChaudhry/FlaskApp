@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Flask App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
+</head>
+<style>
+    body {
+        background-color: #f4f4f4;
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        color: #333;
+        margin-top: 30px;
+    }
+    p {
+        color: #555;
+        font-size: 18px;
+        margin-top: 20px;
+    } 
+    input[type=text]{
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        color: #333;
+        width: 250px;
+        height: 30px;
+        font-size: 16px;
+        padding: 5px;
+    }
+    input[type=text]:focus {
+     outline: none;
+     border: 1.5px solid #4285f4;
+     color: rgb(17, 66, 131)
+     /*border: 1px solid hotpink;
+     color: rgb(199, 89, 26)*/
+    }
+
+    button {
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .output-text {
+        background-color: #fff;
+        display: inline-block;
+        margin: 20px;
+        border-radius: 10px;
+        padding: 20px;
+        border: 2px solid #4285f4;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .result-container {
+        text-align: center; /* Center the text within the container */
+    }
+
+    </style>
+<script>
+function myFunction() {
+var text1= $('#text1').val();
+var text2= $('#text2').val();
+  $.ajax({
+              url: "/join",
+              type: "POST",
+              data: {text1:text1,
+              text2:text2}
+          }).done(function(response) {
+            var html= "<div class='result-container'><p> <b>hmm..together that is:<b><p>";
+            response =response.result;
+                 $.each(response,function(key,val){
+                 console.log(val);
+                    html+="<p class ='output-text'>"+val+"<p>"; //add a class for styling
+                });
+                html +="<br>";
+                $(".show-data").append(html);
+            });
+};
+  </script>
+<body>
+    <h1>
+        String Combiner
+    </h1>
+    <p>Combine two strings and see the result!</p>
+    <p>
+            What is your first string? : <input type="text" id="text1" name="text1" placeholder="race..."><br><br>
+            What about your second string? : <input type="text" id="text2" name="text2"placeholder="...car"><br><br>
+            <button id="clicked" onclick="myFunction()">Submit</button>
+    </p>
+    <div class="show-data" >
+    </div>
+</body>
+</html>
